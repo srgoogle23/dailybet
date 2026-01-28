@@ -1,0 +1,5 @@
+{
+  "name": "DailyBet",
+  "description": "Uma aplicação interativa para sortear quem apresentará a Daily, com um sistema de apostas e cálculo de odds baseado nas escolhas do time.",
+  "requestFramePermissions": []
+}
