@@ -23,7 +23,8 @@ describe('translations', () => {
       'spinning', 'winnerTitle', 'betSummary', 'winners', 'prizePerWinner',
       'betOn', 'on', 'profit', 'newDraw', 'historyTitle', 'historyEmpty',
       'leaderboard', 'wins', 'close', 'resetData',
-      'brokeTitle', 'brokeMessage', 'getLoan', 'loanAmount'
+      'brokeTitle', 'brokeMessage', 'getLoan', 'loanAmount',
+      'addBet', 'selectCandidate', 'finalizeBets'
     ];
     requiredKeys.forEach(key => {
       expect(translations.pt).toHaveProperty(key);
@@ -40,7 +41,8 @@ describe('translations', () => {
       'spinning', 'winnerTitle', 'betSummary', 'winners', 'prizePerWinner',
       'betOn', 'on', 'profit', 'newDraw', 'historyTitle', 'historyEmpty',
       'leaderboard', 'wins', 'close', 'resetData',
-      'brokeTitle', 'brokeMessage', 'getLoan', 'loanAmount'
+      'brokeTitle', 'brokeMessage', 'getLoan', 'loanAmount',
+      'addBet', 'selectCandidate', 'finalizeBets'
     ];
     requiredKeys.forEach(key => {
       expect(translations.en).toHaveProperty(key);

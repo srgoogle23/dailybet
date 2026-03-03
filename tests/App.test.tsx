@@ -140,7 +140,7 @@ describe('App', () => {
     }
     
     // Confirm Alice's bet
-    const confirmBtns = screen.getAllByText(/Confirmar Aposta/);
+    const confirmBtns = screen.getAllByText(/Finalizar Apostas/);
     const mainConfirm = confirmBtns.find(el => el.closest('button')?.className.includes('flex-'));
     if (mainConfirm?.closest('button') && !mainConfirm.closest('button')!.disabled) {
       await user.click(mainConfirm.closest('button')!);

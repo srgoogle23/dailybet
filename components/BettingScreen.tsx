@@ -317,7 +317,7 @@ export const BettingScreen: React.FC<BettingScreenProps> = ({ participants, setP
                 <Plus className="w-4 h-4" />
                 {currentCandidateId 
                   ? `${participants.find(p => p.id === currentCandidateId)?.name} - $${currentAmount}`
-                  : t.confirmBet
+                  : t.selectCandidate
                 }
               </button>
             </div>
@@ -388,7 +388,7 @@ export const BettingScreen: React.FC<BettingScreenProps> = ({ participants, setP
             disabled={selections.length === 0}
             className="flex-[2] text-lg py-4 flex items-center justify-center gap-2"
           >
-            {t.confirmBet} <ChevronRight className="w-5 h-5" />
+            {t.finalizeBets} ({selections.length}) <ChevronRight className="w-5 h-5" />
           </Button>
       </div>
 

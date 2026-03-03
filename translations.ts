@@ -62,7 +62,10 @@ export const translations = {
     brokeTitle: 'Sem Grana!',
     brokeMessage: 'está sem dinheiro. Pegar um empréstimo para continuar?',
     getLoan: 'Pegar Empréstimo',
-    loanAmount: 'Empréstimo de'
+    loanAmount: 'Empréstimo de',
+    addBet: 'Adicionar Aposta',
+    selectCandidate: 'Selecione um candidato',
+    finalizeBets: 'Finalizar Apostas'
   },
   en: {
     appTitle: 'DailyBet',
@@ -125,6 +128,9 @@ export const translations = {
     brokeTitle: 'Broke!',
     brokeMessage: 'has no money. Get a loan to continue?',
     getLoan: 'Get Loan',
-    loanAmount: 'Loan of'
+    loanAmount: 'Loan of',
+    addBet: 'Add Bet',
+    selectCandidate: 'Select a candidate',
+    finalizeBets: 'Finalize Bets'
   }
 };

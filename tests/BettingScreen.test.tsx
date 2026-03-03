@@ -77,7 +77,7 @@ describe('BettingScreen', () => {
     renderWithProvider(
       <BettingScreen participants={makeParticipants()} setParticipants={setParticipants} onComplete={onComplete} />
     );
-    const confirmBtns = screen.getAllByText(/Confirmar Aposta/);
+    const confirmBtns = screen.getAllByText(/Finalizar Apostas/);
     const mainConfirm = confirmBtns.find(el => el.closest('button')?.className.includes('flex-'));
     expect(mainConfirm?.closest('button')).toBeDisabled();
   });
@@ -260,7 +260,7 @@ describe('BettingScreen', () => {
     if (addBtn) await user.click(addBtn);
     
     // Confirm bet  
-    const confirmBtns = screen.getAllByText(/Confirmar Aposta/);
+    const confirmBtns = screen.getAllByText(/Finalizar Apostas/);
     const mainConfirm = confirmBtns.find(el => el.closest('button')?.className.includes('flex-'));
     if (mainConfirm?.closest('button') && !mainConfirm.closest('button')!.disabled) {
       await user.click(mainConfirm.closest('button')!);
