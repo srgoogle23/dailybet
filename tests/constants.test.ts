@@ -18,8 +18,8 @@ describe('constants', () => {
     expect(BUYOUT_COST).toBe(999);
   });
 
-  it('LOAN_AMOUNT should be 500', () => {
-    expect(LOAN_AMOUNT).toBe(500);
+  it('LOAN_AMOUNT should be 50', () => {
+    expect(LOAN_AMOUNT).toBe(50);
   });
 
   it('AVATAR_COLORS should have 15 colors', () => {

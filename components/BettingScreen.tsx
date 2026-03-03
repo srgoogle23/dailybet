@@ -90,17 +90,13 @@ export const BettingScreen: React.FC<BettingScreenProps> = ({ participants, setP
   const handleLoan = () => {
     if (!currentBettor || currentBettor.balance > 0) return;
     
-    const newBalance = LOAN_AMOUNT;
-    
-    // Update localStorage
-    const storage = localStorage.getItem('dailybet_wallets');
-    const wallets = storage ? JSON.parse(storage) : {};
-    wallets[currentBettor.name] = newBalance;
-    localStorage.setItem('dailybet_wallets', JSON.stringify(wallets));
-
-    // Update participants state
+    // Only update React state — NOT localStorage.
+    // This way ResultsScreen reads the real (0 or negative) balance from localStorage
+    // and deducts the bet amount, naturally creating debt.
+    // e.g. localStorage=0, bets 50, loses → 0-50 = -50
+    // e.g. localStorage=-50, bets 50, loses → -50-50 = -100
     setParticipants(prev => prev.map(p => 
-      p.id === currentBettor.id ? { ...p, balance: newBalance } : p
+      p.id === currentBettor.id ? { ...p, balance: LOAN_AMOUNT } : p
     ));
   };
 

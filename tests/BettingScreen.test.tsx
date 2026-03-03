@@ -97,10 +97,10 @@ describe('BettingScreen', () => {
     renderWithProvider(
       <BettingScreen participants={participants} setParticipants={setParticipants} onComplete={onComplete} />
     );
-    expect(screen.getByText(/Pegar Empréstimo/)).toBeInTheDocument();
+    expect(screen.getByText(/Pegar Crédito/)).toBeInTheDocument();
   });
 
-  it('handles loan - updates balance via setParticipants', async () => {
+  it('handles loan - updates state only, not localStorage (debt system)', async () => {
     const user = userEvent.setup();
     const participants = makeParticipants();
     participants[0].balance = 0;
@@ -108,13 +108,13 @@ describe('BettingScreen', () => {
       <BettingScreen participants={participants} setParticipants={setParticipants} onComplete={onComplete} />
     );
     
-    const loanBtn = screen.getByText(/Pegar Empréstimo/).closest('button')!;
+    const loanBtn = screen.getByText(/Pegar Crédito/).closest('button')!;
     await user.click(loanBtn);
     
     expect(setParticipants).toHaveBeenCalled();
-    // Check localStorage was updated
-    const wallets = JSON.parse(localStorage.getItem('dailybet_wallets') || '{}');
-    expect(wallets['Alice']).toBe(500);
+    // localStorage should NOT be updated (debt stays as real balance)
+    const wallets = localStorage.getItem('dailybet_wallets');
+    expect(wallets).toBeNull();
   });
 
   it('allows selecting a candidate and adding to selections', async () => {
@@ -292,7 +292,7 @@ describe('BettingScreen', () => {
     );
     
     // Loan button should not be visible
-    expect(screen.queryByText(/Pegar Empréstimo/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Pegar Crédito/)).not.toBeInTheDocument();
   });
 
   it('can update amount with existing selection on same candidate', async () => {
