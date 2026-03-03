@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Participant } from '../types';
 import { Button } from './ui/Button';
-import { Plus, Trash2, Users, Wallet } from 'lucide-react';
+import { Plus, Trash2, Users, Wallet, Download } from 'lucide-react';
 import { AVATAR_COLORS, INITIAL_BALANCE } from '../constants';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -22,6 +22,28 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({ participants, setParti
       const wallets = JSON.parse(storage);
       return wallets[name] !== undefined ? wallets[name] : INITIAL_BALANCE;
   };
+
+  // Auto-load participants from localStorage on mount
+  useEffect(() => {
+    if (participants.length === 0) {
+      const storage = localStorage.getItem('dailybet_wallets');
+      if (storage) {
+        const wallets: Record<string, number> = JSON.parse(storage);
+        const names = Object.keys(wallets);
+        if (names.length > 0) {
+          const loaded: Participant[] = names.map((name, i) => ({
+            id: crypto.randomUUID(),
+            name,
+            avatarColor: AVATAR_COLORS[i % AVATAR_COLORS.length],
+            balance: wallets[name],
+            isImmune: false
+          }));
+          setParticipants(loaded);
+        }
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleAdd = () => {
     if (!nameInput.trim()) return;

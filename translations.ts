@@ -56,7 +56,16 @@ export const translations = {
     leaderboard: 'Saldo dos Jogadores',
     wins: 'vitórias',
     close: 'Fechar',
-    resetData: 'Resetar Dados'
+    resetData: 'Resetar Dados',
+    
+    // Zero balance
+    brokeTitle: 'Sem Grana!',
+    brokeMessage: 'está zerado. Pegue um crédito de $50 para jogar — se perder, vira dívida!',
+    getLoan: 'Pegar Crédito',
+    loanAmount: 'Crédito de',
+    addBet: 'Adicionar Aposta',
+    selectCandidate: 'Selecione um candidato',
+    finalizeBets: 'Finalizar Apostas'
   },
   en: {
     appTitle: 'DailyBet',
@@ -113,6 +122,15 @@ export const translations = {
     leaderboard: 'Player Balances',
     wins: 'wins',
     close: 'Close',
-    resetData: 'Reset Data'
+    resetData: 'Reset Data',
+    
+    // Zero balance
+    brokeTitle: 'Broke!',
+    brokeMessage: 'is broke. Take a $50 credit to play — if you lose, it becomes debt!',
+    getLoan: 'Take Credit',
+    loanAmount: 'Credit of',
+    addBet: 'Add Bet',
+    selectCandidate: 'Select a candidate',
+    finalizeBets: 'Finalize Bets'
   }
 };

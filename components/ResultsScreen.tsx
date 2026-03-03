@@ -19,6 +19,8 @@ export const ResultsScreen: React.FC<ResultsScreenProps> = ({ participants, bets
 
   // Results calculation state to ensure we only process finances once
   const [resultsCalculated, setResultsCalculated] = useState(false);
+  // Stable round ID generated once per mount to create a unique processedKey
+  const [roundId] = useState(() => crypto.randomUUID());
 
   useEffect(() => {
     setTimeout(() => setShowDetails(true), 500);
@@ -28,7 +30,7 @@ export const ResultsScreen: React.FC<ResultsScreenProps> = ({ participants, bets
         if (resultsCalculated) return;
         
         // Unique key for this specific round result to prevent reprocessing on reload
-        const processedKey = `dailybet_processed_${winnerId}_${totalPool}_${bets.length}`;
+        const processedKey = `dailybet_processed_${roundId}`;
         if (localStorage.getItem(processedKey)) {
             setResultsCalculated(true);
             return;
@@ -93,32 +95,40 @@ export const ResultsScreen: React.FC<ResultsScreenProps> = ({ participants, bets
     };
 
     calculateAndSave();
-  }, [winner, totalPool, winnerId, bets, participants, resultsCalculated]);
+  }, [winner, totalPool, winnerId, bets, participants, resultsCalculated, roundId]);
 
   // View Logic (Calculation for display only, separate from persistence)
   const winningBets = bets.filter(b => b.chosenCandidateId === winnerId);
   const totalBetOnWinner = winningBets.reduce((sum, b) => sum + b.amount, 0);
   
   const participantResults = participants.map(p => {
-    const userBet = bets.find(b => b.bettorId === p.id);
-    const didWin = userBet?.chosenCandidateId === winnerId;
+    const userBets = bets.filter(b => b.bettorId === p.id);
+    const totalBetAmount = userBets.reduce((sum, b) => sum + b.amount, 0);
     
-    let profit = 0;
+    let totalPayout = 0;
+    userBets.forEach(bet => {
+      if (bet.chosenCandidateId === winnerId && totalBetOnWinner > 0) {
+        const share = bet.amount / totalBetOnWinner;
+        totalPayout += Math.floor(share * totalPool);
+      }
+    });
     
-    if (didWin && userBet && totalBetOnWinner > 0) {
-        const share = userBet.amount / totalBetOnWinner;
-        const totalPayout = Math.floor(share * totalPool);
-        profit = totalPayout - userBet.amount;
-    } else if (userBet) {
-        profit = -userBet.amount;
-    }
+    const profit = totalPayout - totalBetAmount;
+    const didWin = profit >= 0 && totalPayout > 0;
+    
+    const betDetails = userBets.map(b => ({
+      candidateName: participants.find(c => c.id === b.chosenCandidateId)?.name || '?',
+      amount: b.amount,
+      isWinner: b.chosenCandidateId === winnerId
+    }));
     
     return {
         participant: p,
         didWin,
         profit,
-        betAmount: userBet?.amount || 0,
-        votedFor: participants.find(c => c.id === userBet?.chosenCandidateId)?.name || '?'
+        betAmount: totalBetAmount,
+        betDetails,
+        votedFor: betDetails.map(d => d.candidateName).join(', ')
     };
   }).sort((a, b) => b.profit - a.profit);
 
@@ -162,15 +172,18 @@ export const ResultsScreen: React.FC<ResultsScreenProps> = ({ participants, bets
                         </div>
                         <div>
                             <p className="font-bold text-white">{res.participant.name}</p>
-                            <div className="flex gap-2 text-xs">
-                                <span className="text-slate-400">{t.betOn} <span className="text-slate-200">${res.betAmount}</span> {t.on}</span>
-                                <span className="text-indigo-300 font-bold">{res.votedFor}</span>
+                            <div className="flex flex-wrap gap-x-2 gap-y-0.5 text-xs">
+                                {res.betDetails.map((d, i) => (
+                                  <span key={i} className={d.isWinner ? 'text-emerald-300 font-bold' : 'text-slate-400'}>
+                                    ${d.amount} → {d.candidateName}{d.isWinner ? ' ✓' : ''}
+                                  </span>
+                                ))}
                             </div>
                         </div>
                     </div>
                     
                     <div className="text-right">
-                        {res.didWin ? (
+                        {res.profit > 0 ? (
                             <div className="flex flex-col items-end">
                                 <div className="flex items-center gap-2 text-emerald-400">
                                     <TrendingUp className="w-4 h-4" />
@@ -178,10 +191,14 @@ export const ResultsScreen: React.FC<ResultsScreenProps> = ({ participants, bets
                                 </div>
                                 <span className="text-[10px] text-emerald-500/70 uppercase font-bold">{t.profit}</span>
                             </div>
+                        ) : res.profit === 0 && res.betAmount > 0 ? (
+                            <div className="flex items-center gap-2 text-slate-400">
+                                <span className="font-mono font-bold">$0</span>
+                            </div>
                         ) : (
                             <div className="flex items-center gap-2 text-red-400 opacity-60">
                                 <Frown className="w-4 h-4" />
-                                <span className="font-mono font-bold">-${res.betAmount}</span>
+                                <span className="font-mono font-bold">{res.profit < 0 ? `-$${Math.abs(res.profit)}` : `$0`}</span>
                             </div>
                         )}
                     </div>
