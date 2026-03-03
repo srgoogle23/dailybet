@@ -19,6 +19,8 @@ export const ResultsScreen: React.FC<ResultsScreenProps> = ({ participants, bets
 
   // Results calculation state to ensure we only process finances once
   const [resultsCalculated, setResultsCalculated] = useState(false);
+  // Stable round ID generated once per mount to create a unique processedKey
+  const [roundId] = useState(() => crypto.randomUUID());
 
   useEffect(() => {
     setTimeout(() => setShowDetails(true), 500);
@@ -28,7 +30,7 @@ export const ResultsScreen: React.FC<ResultsScreenProps> = ({ participants, bets
         if (resultsCalculated) return;
         
         // Unique key for this specific round result to prevent reprocessing on reload
-        const processedKey = `dailybet_processed_${winnerId}_${totalPool}_${bets.length}`;
+        const processedKey = `dailybet_processed_${roundId}`;
         if (localStorage.getItem(processedKey)) {
             setResultsCalculated(true);
             return;
@@ -93,7 +95,7 @@ export const ResultsScreen: React.FC<ResultsScreenProps> = ({ participants, bets
     };
 
     calculateAndSave();
-  }, [winner, totalPool, winnerId, bets, participants, resultsCalculated]);
+  }, [winner, totalPool, winnerId, bets, participants, resultsCalculated, roundId]);
 
   // View Logic (Calculation for display only, separate from persistence)
   const winningBets = bets.filter(b => b.chosenCandidateId === winnerId);
