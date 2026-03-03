@@ -126,11 +126,6 @@ export const RouletteScreen: React.FC<RouletteScreenProps> = ({ participants, on
                             {item.name.substring(0, 2).toUpperCase()}
                         </div>
                         <span className="text-slate-300 font-bold truncate max-w-[80%] text-center">{item.name}</span>
-                        
-                        {/* Winner Highlight Effect */}
-                        {index === WINNING_INDEX && (
-                            <div className="absolute inset-0 bg-yellow-400/10 border-2 border-yellow-400/50 animate-pulse"></div>
-                        )}
                     </div>
                 ))}
             </div>

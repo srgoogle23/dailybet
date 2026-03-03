@@ -4,6 +4,7 @@ export const PRESET_BET_AMOUNTS = [10, 50, 100, 200, 500];
 
 export const INITIAL_BALANCE = 1000;
 export const BUYOUT_COST = 999;
+export const LOAN_AMOUNT = 500;
 
 export const AVATAR_COLORS = [
   'bg-red-500',

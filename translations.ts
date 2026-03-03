@@ -56,7 +56,13 @@ export const translations = {
     leaderboard: 'Saldo dos Jogadores',
     wins: 'vitórias',
     close: 'Fechar',
-    resetData: 'Resetar Dados'
+    resetData: 'Resetar Dados',
+    
+    // Zero balance
+    brokeTitle: 'Sem Grana!',
+    brokeMessage: 'está sem dinheiro. Pegar um empréstimo para continuar?',
+    getLoan: 'Pegar Empréstimo',
+    loanAmount: 'Empréstimo de'
   },
   en: {
     appTitle: 'DailyBet',
@@ -113,6 +119,12 @@ export const translations = {
     leaderboard: 'Player Balances',
     wins: 'wins',
     close: 'Close',
-    resetData: 'Reset Data'
+    resetData: 'Reset Data',
+    
+    // Zero balance
+    brokeTitle: 'Broke!',
+    brokeMessage: 'has no money. Get a loan to continue?',
+    getLoan: 'Get Loan',
+    loanAmount: 'Loan of'
   }
 };
